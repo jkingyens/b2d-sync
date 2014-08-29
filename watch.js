@@ -14,6 +14,12 @@ function getdockerip (cb) {
   });
 }
 
+function install_rsync (cb) { 
+  cp.exec('boot2docker ssh "tce-load -wi rsync"', function (err, stdout) { 
+    cb();
+  });
+} 
+
 function rsync (cb) { 
   var child = cp.spawn('rsync', [ 
     '-av',
@@ -30,6 +36,7 @@ function mkdirp (cb) {
 async.series([ 
   mkdirp,
   getdockerip,
+  install_rsync,
   rsync
 ], function (err) { 
   var watcher = chokidar.watch(process.cwd(), { persistent: true });
