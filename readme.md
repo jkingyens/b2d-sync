@@ -4,10 +4,10 @@ This will keep a given folder in sync with a folder under the same path inside b
 
 ### install:
 
-npm install -g b2d-sync
+    npm install -g b2d-sync
 
 ### usage:
 
-cd <working dir>
-bdsync
+    cd <working dir>
+    bdsync
 
