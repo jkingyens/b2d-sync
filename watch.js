@@ -26,6 +26,9 @@ function rsync (cb) {
      process.cwd() + '/',
      'docker@' + docker_ip + ':' + process.cwd()
   ]);
+  child.stderr.on('data', function (data) { 
+    console.error(data.toString());
+  });
   child.stdout.on('data', function (data) {
     console.log(data.toString());
   });
