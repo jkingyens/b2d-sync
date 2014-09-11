@@ -1,8 +1,11 @@
 var async = require('async');
 var chokidar = require('chokidar');
 var cp = require('child_process');
+var path = require('path');
 
 var docker_ip;
+
+var hostPath = '/data';
 
 function getdockerip (cb) {
   cp.exec('boot2docker ip 2>/dev/null', function (err, stdout) {
@@ -22,9 +25,11 @@ function install_rsync (cb) {
 
 function rsync (cb) {
   var child = cp.spawn('rsync', [
-    '-av',
+    '-av', 
      process.cwd() + '/',
-     'docker@' + docker_ip + ':' + process.cwd()
+     '--exclude-from',
+     '.gitignore',
+     'docker@' + docker_ip + ':' + hostPath
   ]);
   child.stderr.on('data', function (data) { 
     console.error(data.toString());
@@ -38,7 +43,7 @@ function rsync (cb) {
 }
 
 function mkdirp (cb) {
-  cp.exec('boot2docker ssh "sudo mkdir -p ' + process.cwd() + ' && sudo chown docker ' + process.cwd() + '"', function() {
+  cp.exec('boot2docker ssh "sudo mkdir -p ' + hostPath + ' && sudo chown docker ' + hostPath + '"', function() {
     cb();
   });
 }
