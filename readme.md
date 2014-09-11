@@ -1,6 +1,7 @@
 ## b2d-sync
 
-This will keep a given folder in sync with a folder under the same path inside boot2docker VM. 
+This will keep a given folder in sync with `/data` inside boot2docker VM.  It respects
+basic .gitignore filtering using `rsync --exclude-from=.gitignore`.
 
 ### install:
 
@@ -10,4 +11,3 @@ This will keep a given folder in sync with a folder under the same path inside b
 
     cd <working dir>
     bdsync
-
