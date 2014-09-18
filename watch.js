@@ -24,9 +24,11 @@ function rsync (cb) {
   var child = cp.spawn('rsync', [
     '-av',
      process.cwd() + '/',
+     '--exclude-from',
+     '.gitignore',
      'docker@' + docker_ip + ':' + process.cwd()
   ]);
-  child.stderr.on('data', function (data) { 
+  child.stderr.on('data', function (data) {
     console.error(data.toString());
   });
   child.stdout.on('data', function (data) {
