@@ -1,6 +1,6 @@
 {
   "name": "b2d-sync",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "continous syncing of host folder to boot2docker VM via rsync",
   "main": "watch.js",
   "scripts": {

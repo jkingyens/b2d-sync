@@ -40,7 +40,7 @@ function rsync (cb) {
 }
 
 function mkdirp (cb) {
-  cp.exec('boot2docker ssh "sudo mkdir -p ' + process.cwd() + ' && sudo chown docker ' + process.cwd() + '"', function() {
+  cp.exec('boot2docker ssh "sudo mkdir -p ' + process.cwd() + ' && sudo chown -R docker:staff ' + process.cwd() + '"', function() {
     cb();
   });
 }
