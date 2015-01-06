@@ -1,8 +1,15 @@
 var async = require('async');
 var chokidar = require('chokidar');
 var cp = require('child_process');
-
+var nconf = require('nconf');
 var docker_ip;
+
+nconf.env().argv().file('bdsync.json');
+
+nconf.defaults({
+  'targetPath': process.cwd(),
+  'ignoreFile' : '.gitignore'
+});
 
 function getdockerip (cb) {
   cp.exec('boot2docker ip 2>/dev/null', function (err, stdout) {
@@ -25,9 +32,10 @@ function rsync (cb) {
     '-av',
      process.cwd() + '/',
      '--exclude-from',
-     '.gitignore',
-     'docker@' + docker_ip + ':' + process.cwd()
+     nconf.get('ignoreFile'),
+     'docker@' + docker_ip + ':' + nconf.get('targetPath')
   ]);
+
   child.stderr.on('data', function (data) {
     console.error(data.toString());
   });
@@ -40,10 +48,12 @@ function rsync (cb) {
 }
 
 function mkdirp (cb) {
-  cp.exec('boot2docker ssh "sudo mkdir -p ' + process.cwd() + ' && sudo chown -R docker:staff ' + process.cwd() + '"', function() {
+  cp.exec('boot2docker ssh "sudo mkdir -p ' + nconf.get('targetPath') + ' && sudo chown -R docker:staff ' + nconf.get('targetPath') + '"', function() {
     cb();
   });
 }
+
+console.log('Sync with ' + nconf.get('targetPath') + ", exclude from " + nconf.get('ignoreFile'));
 
 async.series([
   mkdirp,
