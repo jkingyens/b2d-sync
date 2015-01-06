@@ -30,6 +30,7 @@ function install_rsync (cb) {
 function rsync (cb) {
   var child = cp.spawn('rsync', [
     '-av',
+    '--delete',
      process.cwd() + '/',
      '--exclude-from',
      nconf.get('ignoreFile'),
