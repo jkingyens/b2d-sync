@@ -13,7 +13,7 @@ This will keep a given folder in sync with a folder inside boot2docker VM. Per d
 
 ### configuration:
 
-The following config options can be set either as environment variable, as command line argument or in the config file b2dsync.json:
+The following config options can be set either as environment variable, as command line argument or in the config file bdsync.json:
 
     targetPath: Path in the boot2docker VM (will be automatically created)
     ignoreFile: File from which rsync ignores should be taken (per default .gitignore)
