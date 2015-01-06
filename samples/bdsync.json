@@ -1,0 +1,4 @@
+{
+  "targetPath" : "/mnt/sda1/var/test",
+  "ignoreFile" : ".syncignore"
+}
