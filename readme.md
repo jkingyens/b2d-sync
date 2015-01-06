@@ -11,7 +11,7 @@ This will keep a given folder in sync with a folder inside boot2docker VM. Per d
     cd <working dir>
     bdsync
 
-### configuration
+### configuration:
 
 The following config options can be set either as environment variable, as command line argument or in the config file b2dsync.json:
 
@@ -22,8 +22,7 @@ Example for command line:
 
     bdsync --targetPath=/mnt/test
 
-Example for config file:
+Example for config file bdsync.json:
 
-    bdsync.json
     {"targetPath" : "/mnt/test"}
 
