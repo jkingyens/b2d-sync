@@ -1,5 +1,6 @@
 var async = require('async');
 var chokidar = require('chokidar');
+var osenv = require('osenv');
 var cp = require('child_process');
 var nconf = require('nconf');
 var docker_ip;
@@ -30,6 +31,7 @@ function install_rsync (cb) {
 function rsync (cb) {
   var child = cp.spawn('rsync', [
     '-av',
+    '--rsh=ssh -i ' + osenv.home() + '/.ssh/id_boot2docker -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no',
     '--delete',
      process.cwd() + '/',
      '--exclude-from',
