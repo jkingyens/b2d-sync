@@ -17,7 +17,7 @@ function getdockerip (cb) {
     if (err) {
       return cb(err);
     }
-    docker_ip = stdout;
+    docker_ip = stdout.trim();
     cb();
   });
 }
