@@ -64,8 +64,8 @@ async.series([
   install_rsync,
   rsync
 ], function (err) {
-  var watcher = chokidar.watch(process.cwd(), { persistent: true });
-  watcher.on('change', function () {
+  var watcher = chokidar.watch(process.cwd(), { persistent: true, ignoreInitial: true });
+  watcher.on('all', function () {
     rsync(function (cb) {
       console.log('refreshing');
     });
