@@ -3,6 +3,8 @@ var chokidar = require('chokidar');
 var osenv = require('osenv');
 var cp = require('child_process');
 var nconf = require('nconf');
+var debounce = require('async-debounce');
+
 var docker_ip;
 
 nconf.env().argv().file('bdsync.json');
@@ -58,6 +60,24 @@ function mkdirp (cb) {
 
 console.log('Sync with ' + nconf.get('targetPath') + ", exclude from " + nconf.get('ignoreFile'));
 
+function loggedRsync(cb) {
+  console.log('Syncing files...');
+  rsync(function () {
+    console.log('Syncing complete.');
+    cb();
+  });  
+}
+
+// Settles down a function, until there's a 100ms pause.
+function settle(fn) {
+  var lastTimeout;
+  return function(e, d) {
+    console.log(e, d);
+    clearTimeout(lastTimeout);
+    lastTimeout = setTimeout(fn, 100);
+  };
+}
+
 async.series([
   mkdirp,
   getdockerip,
@@ -65,9 +85,5 @@ async.series([
   rsync
 ], function (err) {
   var watcher = chokidar.watch(process.cwd(), { persistent: true, ignoreInitial: true });
-  watcher.on('all', function () {
-    rsync(function (cb) {
-      console.log('refreshing');
-    });
-  });
+  watcher.on('all', settle(debounce(loggedRsync, 500)));
 });
