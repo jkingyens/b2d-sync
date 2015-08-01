@@ -52,6 +52,12 @@ function rsync (cb) {
   });
 }
 
+function umount (cb) {
+  cp.exec('boot2docker ssh "sudo umount /Users || /bin/true"', function() {
+    cb();
+  });
+}
+
 function mkdirp (cb) {
   cp.exec('boot2docker ssh "sudo mkdir -p ' + nconf.get('targetPath') + ' && sudo chown -R docker:staff ' + nconf.get('targetPath') + '"', function() {
     cb();
