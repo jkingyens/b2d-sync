@@ -82,7 +82,6 @@ console.log('Sync with ' + nconf.get('targetPath') + ", exclude from " + nconf.g
 function settle(fn) {
   var lastTimeout;
   return function(e, d) {
-    console.log(e, d);
     clearTimeout(lastTimeout);
     lastTimeout = setTimeout(fn, 100);
   };
